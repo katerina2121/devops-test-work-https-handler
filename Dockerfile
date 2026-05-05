@@ -20,15 +20,24 @@ RUN --mount=type=cache,destination=/root/.cache/uv \
 
 COPY . .
 
+FROM ubuntu@sha256:962f6cadeae0ea6284001009daa4cc9a8c37e75d1f5191cf0eb83fe565b63dd7 AS final
+
+ARG PYTHON_VERSION=3.10
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     VIRTUAL_ENV=/app/.venv 
 
-RUN addgroup --system appgroup && \
-    adduser --system --uid 1000 --ingroup appgroup --disabled-password --no-create-home appuser && \
-    chown -R 1000:1000 .
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python${PYTHON_VERSION} && \
+    rm -rf /var/lib/apt/lists/* && \
+    addgroup --system appgroup && \
+    adduser --system --uid 1000 --ingroup appgroup --disabled-password --no-create-home appuser 
+
+WORKDIR /app
+
+COPY --chown=1000:1000 --from=build /app /app
 
 USER appuser
 
