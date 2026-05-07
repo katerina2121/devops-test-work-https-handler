@@ -1,1 +1,16 @@
 # devops-test-work-https-handler
+
+В рамках тестового задания создано приложение, которое выполняет HTTP-запросы к сервису https://httpstat.us и обрабатывает ответы следующим образом.
+
+Для запуска локально:
+
+```
+uv run main.py
+```
+
+Для запуска в Docker:
+
+```
+docker build -t http-handler .
+docker run --name http-handler http-handler
+```
