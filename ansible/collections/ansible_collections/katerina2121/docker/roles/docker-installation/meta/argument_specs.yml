@@ -3,9 +3,10 @@
 
 argument_specs:
   main:
-    short_description: Role description.
+    short_description: Installs Docker on Ubuntu and manages docker group membership.
     options:
-      docker-installation_my_variable:
-        type: str
-        description: A simple string argument for demonstration.
-        default: "default_value"
+      docker_installation_users:
+        type: list
+        elements: str
+        description: List of system users to be added to the `docker` group for non-root access to the Docker daemon.
+        default: ["{{ ansible_user }}"]

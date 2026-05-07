@@ -1,78 +1,62 @@
 # katerina2121.docker docker-installation Role
 
-A brief description of the role goes here.
+Installs Docker on Ubuntu. Configures Docker repository, installs required dependencies, and optionally adds users to the docker group for non-root access.
 
 ## Requirements
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+- Ansible 2.14+
+- Supported OS: Ubuntu
 
 ## Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `docker_installation_users` | List of system users to be added to the `docker` group for non-root access to Docker daemon | `["{{ ansible_user }}"]` |
 
 ## Dependencies
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+No
 
 ## Example Playbook
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
 - name: Execute tasks on servers
   hosts: servers
   roles:
-    - role: katerina2121.docker.run
-      run_x: 42
+    - role: katerina2121.docker.docker-installation
+      docker_installation_users:
+        - "{{ ansible_user }}"
+        - admin
 ```
 
 Another way to consume this role would be:
 
 ```yaml
-- name: Initialize the run role from katerina2121.docker
+- name: Initialize the docker-installation role from katerina2121.docker
   hosts: servers
   gather_facts: false
   tasks:
-    - name: Trigger invocation of run role
+    - name: Trigger invocation of docker-installation role
       ansible.builtin.include_role:
-        name: katerina2121.docker.run
+        name: katerina2121.docker.docker-installation
       vars:
-        run_x: 42
+        docker_installation_users:
+          - "{{ ansible_user }}"
+          - admin
 ```
 
 ## Role Idempotency
 
-Designation of the role as idempotent (True/False)
+True
 
 ## Role Atomicity
 
-Designation of the role as atomic if applicable (True/False)
+True
 
 ## Roll-back capabilities
 
-Define the roll-back capabilities of the role
-
-## Argument Specification
-
-Including an example of how to add an argument Specification file that validates the arguments provided to the role.
-
-```yaml
-argument_specs:
-  main:
-    short_description: Role description.
-    options:
-      string_arg1:
-        description: string argument description.
-        type: "str"
-        default: "x"
-        choices: ["x", "y"]
-```
-
-## License
-
-<!-- TO-DO: Update the license to the one you want to use (delete this line after setting the license) -->
-BSD
+No built-in rollback.
 
 ## Author Information
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Ekaterina Lobova katya.lobova2005@gmail.com
