@@ -8,14 +8,43 @@
       - "{{ ansible_user }}"
 
   tasks:
+    - name: Check Docker version
+      ansible.builtin.command: docker --version
+      changed_when: false
+      register: docker_version
+    
+    - name: Display Docker installation status
+      ansible.builtin.debug:
+        var: docker_version.stdout
+
     - name: Build image from Dockerfile
       community.docker.docker_image_build:
-        name: https-handler:0.0.1
+        name: http-handler:0.0.1
         path: ../
 
     - name: Run container from built image
       community.docker.docker_container:
-        name: https-handler
-        image: https-handler:0.0.1
+        name: http-handler
+        image: http-handler:0.0.1
         state: started
+        detach: false
+
+    - name: Get container information to check exit code
+      community.docker.docker_container:
+        name: http-handler
+        image: https-handler:0.0.1
+        state: present
+      register: container_info
+
+    - name: Display container exit code
+      ansible.builtin.debug:
+        var: container_info.container.State.ExitCode
     
+    - name: Get container logs
+      ansible.builtin.command: docker logs https-handler
+      changed_when: false
+      register: container_logs
+
+    - name: Display container logs in console
+      ansible.builtin.debug:
+        var: container_logs.stderr_lines
