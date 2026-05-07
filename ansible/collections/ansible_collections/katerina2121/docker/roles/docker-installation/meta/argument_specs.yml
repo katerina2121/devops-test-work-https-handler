@@ -1,0 +1,11 @@
+---
+# argument spec file for katerina2121.docker.docker-installation
+
+argument_specs:
+  main:
+    short_description: Role description.
+    options:
+      docker-installation_my_variable:
+        type: str
+        description: A simple string argument for demonstration.
+        default: "default_value"

@@ -1,0 +1,21 @@
+---
+- name: Example playbook
+  hosts: localhost
+  become: true
+  roles:
+    - role: geerlingguy.docker
+      docker_users:
+      - "{{ ansible_user }}"
+
+  tasks:
+    - name: Build image from Dockerfile
+      community.docker.docker_image_build:
+        name: https-handler:0.0.1
+        path: ../
+
+    - name: Run container from built image
+      community.docker.docker_container:
+        name: https-handler
+        image: https-handler:0.0.1
+        state: started
+    
