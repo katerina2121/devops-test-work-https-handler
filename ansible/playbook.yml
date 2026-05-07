@@ -6,7 +6,6 @@
     - role: geerlingguy.docker
       docker_users:
       - "{{ ansible_user }}"
-
   tasks:
     - name: Check Docker version
       ansible.builtin.command: docker --version

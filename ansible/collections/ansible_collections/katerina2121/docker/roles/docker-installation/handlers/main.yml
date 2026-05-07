@@ -1,2 +1,5 @@
 ---
 # handlers file for katerina2121.docker.docker-installation
+
+- name: reset ssh session
+  ansible.builtin.meta: reset_connection

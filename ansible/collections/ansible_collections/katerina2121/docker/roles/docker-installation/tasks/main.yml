@@ -13,4 +13,5 @@
   ansible.builtin.user:
     name: "{{ ansible_user }}"
     groups: docker
-    append: yes 
+    append: yes
+  notify: reset ssh session 
