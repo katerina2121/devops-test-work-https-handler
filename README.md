@@ -14,3 +14,9 @@ uv run main.py
 docker build -t http-handler .
 docker run --name http-handler http-handler
 ```
+
+Так как внутри прейбука есть задачи, которые требуют прав суперпользователя, то для запуска на localhost успользуется команда, которая запросит пароль sudo
+
+```
+ansible-playbook playbook.yml --ask-become-pass
+```
