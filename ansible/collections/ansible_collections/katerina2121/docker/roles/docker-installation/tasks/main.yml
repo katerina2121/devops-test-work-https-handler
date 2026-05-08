@@ -1,8 +1,8 @@
 ---
 
-- name: Include tasks for Ubuntu systems
-  ansible.builtin.include_tasks: ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
+- name: Include tasks for Ubuntu or Debian systems
+  ansible.builtin.include_tasks: debian.yml
+  when: ansible_distribution in ['Ubuntu', 'Debian']
 
 - name: Ensure group docker exists
   ansible.builtin.group:
